@@ -413,6 +413,24 @@ textarea{width:100%;min-height:90px;border:0;border-radius:16px;padding:13px;bac
   border-left:8px solid #13b8b3;
 }
 
+
+/* Rhythm-strip-only motion */
+.rhythm-only {
+  display:block;
+  width:100%;
+  border-radius:16px;
+  box-shadow:0 12px 24px rgba(16,33,63,.12);
+  transform-origin:center;
+  animation: rhythmDrift 3.6s ease-in-out infinite;
+}
+@keyframes rhythmDrift {
+  0%,100% { transform: translateX(0) scale(1); filter: contrast(1); }
+  50% { transform: translateX(8px) scale(1.01); filter: contrast(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rhythm-only, .scan-line { animation: none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -425,7 +443,7 @@ textarea{width:100%;min-height:90px;border:0;border-radius:16px;padding:13px;bac
   <button class="nav" onclick="show('lessons')">🧠 Concept Lessons</button>
   <button class="nav" onclick="show('reference')">📈 EKG Reference</button>
   <button class="nav" onclick="show('report')">📋 Report</button>
-  <div class="side-note"><b>GitHub Pages:</b><br>Upload this file as <b>index.html</b>. It is a complete standalone website. No extra folders or libraries are required.</div>
+  
 </aside>
 <main>
 <section id="mission" class="active">
@@ -436,13 +454,13 @@ textarea{width:100%;min-height:90px;border:0;border-radius:16px;padding:13px;bac
     <button class="btn" onclick="show('practice')">Start Practice</button>
     <button class="btn secondary" onclick="show('flashcards')">Study Flashcards</button>
     <button class="btn warn" onclick="show('lessons')">Open Lessons</button>
-    <div class="stats"><div class="stat">100 total questions</div><div class="stat">80 from original list</div><div class="stat">20 higher-order NHA-style</div><div class="stat">60 categorized flashcards</div></div>
+    
   </div></div>
 </section>
 <section id="practice">
   <div class="card">
     <h2>Practice: 80 Core + 20 Higher-Order CCMA Questions</h2>
-    <p>Questions 1–80 come from the original list. Questions 81–100 are higher-order CCMA/NHA-style challenge questions with balanced answer choices.</p>
+    
     <div id="qmap" class="review-grid"></div>
     <div id="practiceBox"></div>
   </div>
@@ -471,10 +489,7 @@ textarea{width:100%;min-height:90px;border:0;border-radius:16px;padding:13px;bac
 <section id="reference">
   <div class="card">
     <h2>EKG Artifact Reference</h2>
-    <div class="reference-note">
-      Use this tab as the clean reference page. These are the four original reference cards from the uploaded image.
-      The colored lesson cards stay in the Concept Lessons tab for teaching and practice.
-    </div>
+    
     <div class="reference-grid">
       <div class="reference-card">
         <h3>1. Somatic tremor / muscle artifact</h3>
@@ -835,14 +850,14 @@ function renderLessonTabs(){
 
 function renderEkgGallery(){
   const cards=[
-    ['Somatic tremor / muscle artifact','Shivering, talking, chewing, or Parkinsonian tremor creates muscle activity that makes the baseline jagged and irregular.','Can mimic atrial flutter, atrial fibrillation, or other rhythm disturbance.','Warm the patient, ask them not to talk or move, support limbs, and repeat the ECG.'],
-    ['Interrupted baseline / poor contact','Loose lead, dry gel, poor skin contact, or damaged cable interrupts the electrical connection.','Can mimic pauses, dropped beats, or an incomplete/disconnected tracing, not a true rhythm problem.','Reconnect loose leads, replace electrodes, check skin prep, and inspect wires/cables.'],
-    ['Reversed limb leads / RA-LA reversal','Right arm and left arm lead reversal inverts Lead I and can change the apparent axis.','Can mimic axis deviation, dextrocardia, ischemia, or other abnormal findings.','Check limb lead placement RA, LA, RL, LL. Correct placement and repeat the ECG.'],
-    ['Misplaced precordial chest leads','Incorrect placement of V1–V6 changes the normal sequence of R-wave progression.','Can mimic anterior MI, poor R-wave progression, ventricular hypertrophy, or other abnormalities.','Recheck anatomic landmarks, place chest leads correctly, and repeat the ECG.']
+    ['Somatic tremor / muscle artifact','somatic','Shivering, talking, chewing, or Parkinsonian tremor creates muscle activity that makes the baseline jagged and irregular.','Can mimic atrial flutter, atrial fibrillation, or other rhythm disturbance.','Warm the patient, ask them not to talk or move, support limbs, and repeat the ECG.'],
+    ['Interrupted baseline / poor contact','interrupted','Loose lead, dry gel, poor skin contact, or damaged cable interrupts the electrical connection.','Can mimic pauses, dropped beats, or an incomplete/disconnected tracing, not a true rhythm problem.','Reconnect loose leads, replace electrodes, check skin prep, and inspect wires/cables.'],
+    ['Reversed limb leads / RA-LA reversal','lead','Right arm and left arm lead reversal inverts Lead I and can change the apparent axis.','Can mimic axis deviation, dextrocardia, ischemia, or other abnormal findings.','Check limb lead placement RA, LA, RL, LL. Correct placement and repeat the ECG.'],
+    ['Misplaced precordial chest leads','precordial','Incorrect placement of V1–V6 changes the normal sequence of R-wave progression.','Can mimic anterior MI, poor R-wave progression, ventricular hypertrophy, or other abnormalities.','Recheck anatomic landmarks, place chest leads correctly, and repeat the ECG.']
   ];
   const colors=[['#9cf59f','#effff0'],['#ff9db0','#fff1f4'],['#b8a2ff','#f5f0ff'],['#70d6ff','#edfaff']];
-  return `<div class="interactive-note">The detailed EKG pictures are kept in the EKG Reference tab. This lesson tab keeps the colored reasoning cards so students learn the concept without repeating the same images.</div>
-  <div class="ekg-gallery">${cards.map((c,i)=>`<div class="ekg-card" style="--cardStrong:${colors[i][0]};--cardSoft:${colors[i][1]}"><div class="ekg-inner"><div class="mini-def">EKG artifact reasoning card</div><h4>${c[0]}</h4><div class="ekg-meta"><div class="ekg-badge"><span class="caption">Reasoning</span><br>${c[1]}</div><div class="ekg-badge"><span class="caption">Can mimic</span><br>${c[2]}</div><div class="ekg-badge"><span class="caption">What to do</span><br>${c[3]}</div></div></div></div>`).join('')}</div>`;
+  return `<div class="interactive-note">Each EKG concept card includes the moving rhythm strip so students connect the visual pattern with the reasoning. The full reference cards remain in the EKG Reference tab.</div>
+  <div class="ekg-gallery">${cards.map((c,i)=>`<div class="ekg-card" style="--cardStrong:${colors[i][0]};--cardSoft:${colors[i][1]}"><div class="ekg-inner"><div class="mini-def">EKG artifact reasoning card</div><h4>${c[0]}</h4>${ekgVisual(c[1])}<div class="ekg-meta"><div class="ekg-badge"><span class="caption">Reasoning</span><br>${c[2]}</div><div class="ekg-badge"><span class="caption">Can mimic</span><br>${c[3]}</div><div class="ekg-badge"><span class="caption">What to do</span><br>${c[4]}</div></div></div></div>`).join('')}</div>`;
 }
 function renderLessonCards(items, colors){
   return `<div class="lesson-grid">${items.map((it,idx)=>`<div class="lesson-card" style="--cardStrong:${colors[idx%colors.length][0]};--cardSoft:${colors[idx%colors.length][1]}"><div class="inner"><div class="mini-def">Concept card</div><h4>${it[0]}</h4><p>${it[1]}</p></div></div>`).join('')}</div>`;
